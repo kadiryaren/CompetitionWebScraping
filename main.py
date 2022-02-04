@@ -17,13 +17,12 @@ if __name__ == "__main__":
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("user-agent=[Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36]")
     chrome_options.add_argument('--disable-dev-shm-usage')
-    wd = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',chrome_options=chrome_options)
-    driver =webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',chrome_options=chrome_options)
-
+    
     while(True):
         now = datetime.datetime.now()
         if(now.hour in [0,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]):
-
+            wd = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',chrome_options=chrome_options)
+            driver =webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',chrome_options=chrome_options)
             driver.get('https://www.sahibinden.com/ozel-ders-verenler-lise-universite')
             soup = bs(driver.page_source, 'html.parser')
             results = soup.select('#searchResultsTable > tbody')
@@ -45,7 +44,7 @@ if __name__ == "__main__":
                     if(myIlan == 981519161):
                         telegram_send.send(messages=["Kadir ilan ilk 5 sirada degil!"])
 
-
+            driver.quit()
         time.sleep(900)
     
         
