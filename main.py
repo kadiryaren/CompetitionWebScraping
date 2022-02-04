@@ -6,39 +6,42 @@ import numpy as np
 import time 
 import csv 
 from selenium import webdriver
-
-
-
-    
-    
-
+import telegram_send
+import datetime  
 
 if __name__ == "__main__":
 
     chrome_options = webdriver.ChromeOptions()
-    #chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("user-agent=[Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36]")
     chrome_options.add_argument('--disable-dev-shm-usage')
-    wd = webdriver.Chrome('./chromedriver',chrome_options=chrome_options)
-    driver =webdriver.Chrome('./chromedriver',chrome_options=chrome_options)
-    driver.get('https://www.sahibinden.com/ozel-ders-verenler-lise-universite')
-    
+    wd = webdriver.Chrome('./chromedriver_m1',chrome_options=chrome_options)
+    driver =webdriver.Chrome('./chromedriver_m1',chrome_options=chrome_options)
 
-    soup = bs(driver.page_source, 'html.parser')
-    results = soup.select('#searchResultsTable > tbody')
+    while(True):
 
-    # bizim ilanlarin idleri burada olacak 
+        driver.get('https://www.sahibinden.com/ozel-ders-verenler-lise-universite')
+        soup = bs(driver.page_source, 'html.parser')
+        results = soup.select('#searchResultsTable > tbody')
+        ilan_idleri = [994177898, 981519161]
+        first_20_data = []
+        for ilan in range(1,21):
+            first_20_data.append(soup.find_all('tr')[ilan]["data-id"])
+        #telegram_send.send(messages=["Wow that was easy!"])
+       
+        for myIlan in ilan_idleri:
+            if(str(myIlan) not in first_20_data[:5]):
+                now = datetime.datetime.now()
+                if(now.hour in [0,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]):
+                    if(myIlan == 994177898):
+                        telegram_send.send(messages=["Fatih  ilan ilk 5 sirada degil!"])
+                    if(myIlan == 981519161):
+                        telegram_send.send(messages=["Kadir ilan ilk 5 sirada degil!"])
 
-    ilan_idleri = [928771751, 996891248]
 
+        time.sleep(900)
     
-    first_20_data = []
-    for ilan in range(1,21):
-        first_20_data.append(soup.find_all('tr')[ilan]["data-id"])
-    
-    
-    print(first_20_data)
         
     
 
