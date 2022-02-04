@@ -8,6 +8,7 @@ import csv
 from selenium import webdriver
 import telegram_send
 import datetime  
+import csv 
 
 if __name__ == "__main__":
 
@@ -30,7 +31,11 @@ if __name__ == "__main__":
             first_20_data = []
             for ilan in range(1,21):
                 first_20_data.append(soup.find_all('tr')[ilan]["data-id"])
-            #telegram_send.send(messages=["Wow that was easy!"])
+            
+            with open("data.csv","a") as f:
+                writer = csv.writer(f)
+                writer.writerow(first_20_data)
+                f.close()
         
             for myIlan in ilan_idleri:
                 if(str(myIlan) not in first_20_data[:5]):
