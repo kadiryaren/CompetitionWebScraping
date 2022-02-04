@@ -16,8 +16,8 @@ if __name__ == "__main__":
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("user-agent=[Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36]")
     chrome_options.add_argument('--disable-dev-shm-usage')
-    wd = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',chrome_options=chrome_options)
-    driver =webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',chrome_options=chrome_options)
+    wd = webdriver.Chrome('./chromedriver_m1',chrome_options=chrome_options)
+    driver =webdriver.Chrome('./chromedriver_m1',chrome_options=chrome_options)
 
     while(True):
         now = datetime.datetime.now()
