@@ -19,6 +19,7 @@ if __name__ == "__main__":
     chrome_options.add_argument('--disable-dev-shm-usage')
     
     while(True):
+        MINUTE_CALCULATE = 0
         now = datetime.datetime.now()
         if(now.hour in [0,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]):
             wd = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',chrome_options=chrome_options)
@@ -31,21 +32,28 @@ if __name__ == "__main__":
             for ilan in range(1,21):
                 first_20_data.append(soup.find_all('tr')[ilan]["data-id"])
             
+            first_20_data.append(str(now))
             with open("data.csv","a") as f:
                 writer = csv.writer(f)
                 writer.writerow(first_20_data)
                 f.close()
-        
-            for myIlan in ilan_idleri:
-                if(str(myIlan) not in first_20_data[:5]):
-                
-                    if(myIlan == 994177898):
-                        telegram_send.send(messages=["Fatih  ilan ilk 5 sirada degil!"])
-                    if(myIlan == 981519161):
-                        telegram_send.send(messages=["Kadir ilan ilk 5 sirada degil!"])
-
             driver.quit()
-        time.sleep(900)
+        time.sleep(300)
+        MINUTE_CALCULATE +=1
+        if(MINUTE_CALCULATE % 3 == 0):
+            if(now.hour in [0,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]):
+
+                for myIlan in ilan_idleri:
+                    if(str(myIlan) not in first_20_data[:5]):
+                    
+                        if(myIlan == 994177898):
+                            telegram_send.send(messages=["Fatih  ilan ilk 5 sirada degil!"])
+                        if(myIlan == 981519161):
+                            telegram_send.send(messages=["Kadir ilan ilk 5 sirada degil!"])
+
+
+
+    
     
         
     
